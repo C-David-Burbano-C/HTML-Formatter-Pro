@@ -1,0 +1,116 @@
+<div class="flex items-center justify-between">
+  <h2 class="text-sm font-semibold text-fg">Opciones de TypeScript</h2>
+  <button
+    type="button"
+    class="text-xs text-fg-subtle transition-colors hover:text-accent-2"
+    (click)="restoreDefaults()"
+  >
+    Restablecer
+  </button>
+</div>
+
+<section class="mt-4">
+  <h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-fg-subtle">Formato</h3>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Ancho de línea</span>
+    <input
+      type="number"
+      min="40"
+      max="200"
+      step="10"
+      class="w-16 rounded-md border border-border bg-surface-2 px-2 py-1 text-right text-sm text-fg focus:outline-none focus:ring-1 focus:ring-accent"
+      [ngModel]="options().printWidth"
+      (ngModelChange)="update({ printWidth: $event })"
+    />
+  </div>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Tamaño de indentación</span>
+    <input
+      type="number"
+      min="1"
+      max="8"
+      class="w-16 rounded-md border border-border bg-surface-2 px-2 py-1 text-right text-sm text-fg focus:outline-none focus:ring-1 focus:ring-accent"
+      [ngModel]="options().tabWidth"
+      (ngModelChange)="update({ tabWidth: $event })"
+    />
+  </div>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Usar tabulaciones</span>
+    <label class="inline-flex cursor-pointer items-center">
+      <input
+        type="checkbox"
+        class="peer sr-only"
+        [ngModel]="options().useTabs"
+        (ngModelChange)="update({ useTabs: $event })"
+      />
+      <span
+        class="relative h-5 w-9 rounded-full bg-surface-3 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-fg-subtle after:transition-all peer-checked:bg-accent peer-checked:after:translate-x-4 peer-checked:after:bg-white"
+      ></span>
+    </label>
+  </div>
+</section>
+
+<section class="mt-5">
+  <h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-fg-subtle">Estilo</h3>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Comillas simples</span>
+    <label class="inline-flex cursor-pointer items-center">
+      <input
+        type="checkbox"
+        class="peer sr-only"
+        [ngModel]="options().singleQuote"
+        (ngModelChange)="update({ singleQuote: $event })"
+      />
+      <span
+        class="relative h-5 w-9 rounded-full bg-surface-3 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-fg-subtle after:transition-all peer-checked:bg-accent peer-checked:after:translate-x-4 peer-checked:after:bg-white"
+      ></span>
+    </label>
+  </div>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Punto y coma</span>
+    <label class="inline-flex cursor-pointer items-center">
+      <input
+        type="checkbox"
+        class="peer sr-only"
+        [ngModel]="options().semi"
+        (ngModelChange)="update({ semi: $event })"
+      />
+      <span
+        class="relative h-5 w-9 rounded-full bg-surface-3 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-fg-subtle after:transition-all peer-checked:bg-accent peer-checked:after:translate-x-4 peer-checked:after:bg-white"
+      ></span>
+    </label>
+  </div>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Espacio en llaves</span>
+    <label class="inline-flex cursor-pointer items-center">
+      <input
+        type="checkbox"
+        class="peer sr-only"
+        [ngModel]="options().bracketSpacing"
+        (ngModelChange)="update({ bracketSpacing: $event })"
+      />
+      <span
+        class="relative h-5 w-9 rounded-full bg-surface-3 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-fg-subtle after:transition-all peer-checked:bg-accent peer-checked:after:translate-x-4 peer-checked:after:bg-white"
+      ></span>
+    </label>
+  </div>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Comas finales</span>
+    <select
+      class="rounded-md border border-border bg-surface-2 px-2 py-1 text-sm text-fg focus:outline-none focus:ring-1 focus:ring-accent"
+      [ngModel]="options().trailingComma"
+      (ngModelChange)="update({ trailingComma: $event })"
+    >
+      @for (opt of trailingCommaModes; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+</section>

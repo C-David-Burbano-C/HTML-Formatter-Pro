@@ -1,0 +1,230 @@
+<div class="flex items-center justify-between">
+  <h2 class="text-sm font-semibold text-fg">Opciones de HTML</h2>
+  <button
+    type="button"
+    class="text-xs text-fg-subtle transition-colors hover:text-accent-2"
+    (click)="restoreDefaults()"
+  >
+    Restablecer
+  </button>
+</div>
+
+<section class="mt-4">
+  <h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-fg-subtle">Documento</h3>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Modo</span>
+    <select
+      class="rounded-md border border-border bg-surface-2 px-2 py-1 text-sm text-fg focus:outline-none focus:ring-1 focus:ring-accent"
+      [ngModel]="options().documentMode"
+      (ngModelChange)="update({ documentMode: $event })"
+    >
+      @for (opt of documentModes; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Salto final de línea</span>
+    <label class="inline-flex cursor-pointer items-center">
+      <input
+        type="checkbox"
+        class="peer sr-only"
+        [ngModel]="options().insertFinalNewline"
+        (ngModelChange)="update({ insertFinalNewline: $event })"
+      />
+      <span
+        class="relative h-5 w-9 rounded-full bg-surface-3 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-fg-subtle after:transition-all peer-checked:bg-accent peer-checked:after:translate-x-4 peer-checked:after:bg-white"
+      ></span>
+    </label>
+  </div>
+</section>
+
+<section class="mt-5">
+  <h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-fg-subtle">Indentación</h3>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Estilo</span>
+    <select
+      class="rounded-md border border-border bg-surface-2 px-2 py-1 text-sm text-fg focus:outline-none focus:ring-1 focus:ring-accent"
+      [ngModel]="options().indentStyle"
+      (ngModelChange)="update({ indentStyle: $event })"
+    >
+      @for (opt of indentStyles; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+
+  @if (options().indentStyle === 'spaces') {
+    <div class="flex items-center justify-between py-1.5">
+      <span class="text-sm text-fg-muted">Tamaño</span>
+      <input
+        type="number"
+        min="1"
+        max="8"
+        class="w-16 rounded-md border border-border bg-surface-2 px-2 py-1 text-right text-sm text-fg focus:outline-none focus:ring-1 focus:ring-accent"
+        [ngModel]="options().indentSize"
+        (ngModelChange)="update({ indentSize: $event })"
+      />
+    </div>
+  }
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Ancho de línea</span>
+    <input
+      type="number"
+      min="40"
+      max="200"
+      step="10"
+      class="w-16 rounded-md border border-border bg-surface-2 px-2 py-1 text-right text-sm text-fg focus:outline-none focus:ring-1 focus:ring-accent"
+      [ngModel]="options().printWidth"
+      (ngModelChange)="update({ printWidth: $event })"
+    />
+  </div>
+</section>
+
+<section class="mt-5">
+  <h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-fg-subtle">Líneas en blanco</h3>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Preservar entre elementos</span>
+    <label class="inline-flex cursor-pointer items-center">
+      <input
+        type="checkbox"
+        class="peer sr-only"
+        [ngModel]="options().preserveBlankLines"
+        (ngModelChange)="update({ preserveBlankLines: $event })"
+      />
+      <span
+        class="relative h-5 w-9 rounded-full bg-surface-3 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-fg-subtle after:transition-all peer-checked:bg-accent peer-checked:after:translate-x-4 peer-checked:after:bg-white"
+      ></span>
+    </label>
+  </div>
+
+  @if (options().preserveBlankLines) {
+    <div class="flex items-center justify-between py-1.5">
+      <span class="text-sm text-fg-muted">Máximo consecutivas</span>
+      <input
+        type="number"
+        min="0"
+        max="5"
+        class="w-16 rounded-md border border-border bg-surface-2 px-2 py-1 text-right text-sm text-fg focus:outline-none focus:ring-1 focus:ring-accent"
+        [ngModel]="options().maxConsecutiveBlankLines"
+        (ngModelChange)="update({ maxConsecutiveBlankLines: $event })"
+      />
+    </div>
+  }
+</section>
+
+<section class="mt-5">
+  <h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-fg-subtle">Atributos</h3>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Ajuste de línea</span>
+    <select
+      class="rounded-md border border-border bg-surface-2 px-2 py-1 text-sm text-fg focus:outline-none focus:ring-1 focus:ring-accent"
+      [ngModel]="options().attributeWrap"
+      (ngModelChange)="update({ attributeWrap: $event })"
+    >
+      @for (opt of attributeWrapModes; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Comillas de valores</span>
+    <select
+      class="rounded-md border border-border bg-surface-2 px-2 py-1 text-sm text-fg focus:outline-none focus:ring-1 focus:ring-accent"
+      [ngModel]="options().quoteStyle"
+      (ngModelChange)="update({ quoteStyle: $event })"
+    >
+      @for (opt of quoteStyles; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Minúsculas en atributos</span>
+    <label class="inline-flex cursor-pointer items-center">
+      <input
+        type="checkbox"
+        class="peer sr-only"
+        [ngModel]="options().lowercaseAttributes"
+        (ngModelChange)="update({ lowercaseAttributes: $event })"
+      />
+      <span
+        class="relative h-5 w-9 rounded-full bg-surface-3 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-fg-subtle after:transition-all peer-checked:bg-accent peer-checked:after:translate-x-4 peer-checked:after:bg-white"
+      ></span>
+    </label>
+  </div>
+</section>
+
+<section class="mt-5">
+  <h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-fg-subtle">Elementos</h3>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Elementos vacíos</span>
+    <select
+      class="rounded-md border border-border bg-surface-2 px-2 py-1 text-sm text-fg focus:outline-none focus:ring-1 focus:ring-accent"
+      [ngModel]="options().voidElementStyle"
+      (ngModelChange)="update({ voidElementStyle: $event })"
+    >
+      @for (opt of voidElementStyles; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Minúsculas en etiquetas</span>
+    <label class="inline-flex cursor-pointer items-center">
+      <input
+        type="checkbox"
+        class="peer sr-only"
+        [ngModel]="options().lowercaseTags"
+        (ngModelChange)="update({ lowercaseTags: $event })"
+      />
+      <span
+        class="relative h-5 w-9 rounded-full bg-surface-3 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-fg-subtle after:transition-all peer-checked:bg-accent peer-checked:after:translate-x-4 peer-checked:after:bg-white"
+      ></span>
+    </label>
+  </div>
+</section>
+
+<section class="mt-5">
+  <h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-fg-subtle">Código embebido</h3>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Formatear &lt;script&gt;</span>
+    <label class="inline-flex cursor-pointer items-center">
+      <input
+        type="checkbox"
+        class="peer sr-only"
+        [ngModel]="options().formatEmbeddedJs"
+        (ngModelChange)="update({ formatEmbeddedJs: $event })"
+      />
+      <span
+        class="relative h-5 w-9 rounded-full bg-surface-3 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-fg-subtle after:transition-all peer-checked:bg-accent peer-checked:after:translate-x-4 peer-checked:after:bg-white"
+      ></span>
+    </label>
+  </div>
+
+  <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Formatear &lt;style&gt;</span>
+    <label class="inline-flex cursor-pointer items-center">
+      <input
+        type="checkbox"
+        class="peer sr-only"
+        [ngModel]="options().formatEmbeddedCss"
+        (ngModelChange)="update({ formatEmbeddedCss: $event })"
+      />
+      <span
+        class="relative h-5 w-9 rounded-full bg-surface-3 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-fg-subtle after:transition-all peer-checked:bg-accent peer-checked:after:translate-x-4 peer-checked:after:bg-white"
+      ></span>
+    </label>
+  </div>
+</section>

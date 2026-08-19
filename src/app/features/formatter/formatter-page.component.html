@@ -1,0 +1,170 @@
+<div class="flex h-screen flex-col overflow-hidden bg-canvas text-fg">
+  <header class="flex shrink-0 items-center justify-between border-b border-border-soft px-5 py-3">
+    <div class="flex items-center gap-3">
+      <div
+        class="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-accent to-accent-2 text-sm font-bold text-white shadow-lg shadow-accent-soft"
+      >
+        &lt;/&gt;
+      </div>
+      <div>
+        <h1 class="text-sm font-semibold leading-tight tracking-tight text-fg">HTML Formatter Pro</h1>
+        <p class="text-xs leading-tight text-fg-subtle">Angular · parse5 · Prettier</p>
+      </div>
+    </div>
+
+    <nav class="flex items-center gap-1 rounded-lg bg-surface p-1 text-sm">
+      <button
+        type="button"
+        class="rounded-md px-3 py-1.5 font-medium transition-colors"
+        [class]="tabButtonClass('html')"
+        (click)="selectTab('html')"
+      >
+        HTML
+      </button>
+      <button
+        type="button"
+        class="rounded-md px-3 py-1.5 font-medium transition-colors"
+        [class]="tabButtonClass('ts')"
+        (click)="selectTab('ts')"
+      >
+        TypeScript
+      </button>
+    </nav>
+
+    <button
+      type="button"
+      class="rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-fg-muted transition-colors hover:text-fg"
+      (click)="toggleOptionsPanel()"
+    >
+      {{ optionsPanelOpen() ? 'Ocultar opciones' : 'Opciones' }}
+    </button>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+    <main class="flex flex-1 flex-col gap-3 overflow-hidden p-4">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex min-h-[1.25rem] items-center gap-3 text-xs text-fg-subtle">
+          @if (activeTab() === 'html') {
+            @if (htmlBusy()) {
+              <span class="flex items-center gap-1.5 text-accent-2">
+                <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-accent-2"></span>
+                Formateando…
+              </span>
+            } @else if (htmlError()) {
+              <span class="text-danger">{{ htmlError() }}</span>
+            } @else if (htmlStats()) {
+              <span>{{ htmlStats()!.inputLines }} → {{ htmlStats()!.outputLines }} líneas</span>
+              <span>{{ htmlStats()!.elapsedMs.toFixed(1) }} ms</span>
+              @if (htmlWarnings().length > 0) {
+                <span class="text-warning">{{ htmlWarnings().length }} aviso(s)</span>
+              }
+            }
+          } @else {
+            @if (tsBusy()) {
+              <span class="flex items-center gap-1.5 text-accent-2">
+                <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-accent-2"></span>
+                Formateando…
+              </span>
+            } @else if (tsError()) {
+              <span class="text-danger">{{ tsError() }}</span>
+            } @else if (tsOutput()) {
+              <span>{{ tsElapsedMs().toFixed(1) }} ms</span>
+            }
+          }
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            class="rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-fg-muted transition-colors hover:text-fg"
+            (click)="loadSample()"
+          >
+            Cargar ejemplo
+          </button>
+          <button
+            type="button"
+            class="rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-fg-muted transition-colors hover:text-fg"
+            (click)="clear()"
+          >
+            Limpiar
+          </button>
+          <button
+            type="button"
+            class="rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-fg-muted transition-colors hover:text-fg disabled:cursor-not-allowed disabled:opacity-40"
+            [disabled]="currentOutputLength() === 0"
+            (click)="downloadOutput()"
+          >
+            Descargar
+          </button>
+          <button
+            type="button"
+            class="rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+            [disabled]="currentOutputLength() === 0"
+            (click)="copyOutput()"
+          >
+            {{ copyState() === 'copied' ? '¡Copiado!' : 'Copiar salida' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="grid flex-1 grid-cols-1 gap-3 overflow-hidden lg:grid-cols-2">
+        <section class="flex min-h-0 flex-col overflow-hidden rounded-xl border border-border-soft bg-surface">
+          <div class="flex shrink-0 items-center justify-between border-b border-border-soft px-3 py-2">
+            <span class="text-xs font-medium text-fg-muted">Entrada</span>
+          </div>
+          @if (activeTab() === 'html') {
+            <app-monaco-editor class="min-h-0 flex-1" [(value)]="htmlSource" language="html" ariaLabel="Entrada HTML" />
+          } @else {
+            <app-monaco-editor class="min-h-0 flex-1" [(value)]="tsSource" language="typescript" ariaLabel="Entrada TypeScript" />
+          }
+        </section>
+
+        <section class="flex min-h-0 flex-col overflow-hidden rounded-xl border border-border-soft bg-surface">
+          <div class="flex shrink-0 items-center justify-between border-b border-border-soft px-3 py-2">
+            <span class="text-xs font-medium text-fg-muted">Salida formateada</span>
+          </div>
+          @if (activeTab() === 'html') {
+            <app-monaco-editor
+              class="min-h-0 flex-1"
+              [value]="htmlOutput()"
+              language="html"
+              [readOnly]="true"
+              ariaLabel="Salida HTML formateada"
+            />
+          } @else {
+            <app-monaco-editor
+              class="min-h-0 flex-1"
+              [value]="tsOutput()"
+              language="typescript"
+              [readOnly]="true"
+              ariaLabel="Salida TypeScript formateada"
+            />
+          }
+        </section>
+      </div>
+    </main>
+
+    @if (optionsPanelOpen()) {
+      <aside class="w-80 shrink-0 overflow-y-auto border-l border-border-soft bg-surface p-4">
+        @if (activeTab() === 'html') {
+          <app-html-options-panel [(options)]="htmlOptions" />
+        } @else {
+          <app-code-options-panel [(options)]="tsOptions" />
+        }
+      </aside>
+    }
+  </div>
+
+  <footer class="flex shrink-0 items-center justify-center gap-1 border-t border-border-soft px-5 py-1.5 text-xs text-fg-subtle">
+    <span>Hecho por</span>
+    <a
+      href="https://github.com/C-David-Burbano-C"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="font-medium text-accent-2 transition-colors hover:text-accent"
+    >
+      C-David-Burbano-C
+    </a>
+    <span>en GitHub</span>
+  </footer>
+</div>
