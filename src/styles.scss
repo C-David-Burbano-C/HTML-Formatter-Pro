@@ -1,0 +1,76 @@
+/* Estilos globales: Tailwind v4 + nuestros tokens de diseño (tema oscuro de herramienta de desarrollo). */
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'JetBrains Mono', 'Fira Code', Consolas, 'Courier New', monospace;
+
+  --color-canvas: #0a0c11;
+  --color-surface: #12151c;
+  --color-surface-2: #181c26;
+  --color-surface-3: #1f2430;
+  --color-border: #262b38;
+  --color-border-soft: #1c202b;
+
+  --color-fg: #e7e9f0;
+  --color-fg-muted: #9aa1b5;
+  --color-fg-subtle: #6b7285;
+
+  --color-accent: #7c5cff;
+  --color-accent-2: #22d3ee;
+  --color-accent-soft: #7c5cff1a;
+
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 15% -10%, #7c5cff14, transparent),
+    radial-gradient(1000px 500px at 100% 0%, #22d3ee12, transparent),
+    var(--color-canvas);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+/* Barras de scroll finas y discretas, a juego con el tema oscuro. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-surface-3) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-surface-3);
+  border-radius: 999px;
+  border: 2px solid var(--color-surface);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border);
+}
