@@ -31,6 +31,13 @@ export class HtmlFormatterOptions {
     /** Formatear con Prettier el contenido de las etiquetas <style>. */
     public formatEmbeddedCss: boolean = true,
     public insertFinalNewline: boolean = true,
+    /**
+     * Cuando una etiqueta tiene un único atributo, no lo envuelve en su propia
+     * línea aunque sea muy largo (ej. `class` con muchas clases de Tailwind, o
+     * `d` en un `<path>` de SVG): envolverlo no reduce su longitud, solo agrega
+     * saltos de línea de más. Desactívalo para volver al ajuste basado solo en el ancho.
+     */
+    public avoidWrappingSingleAttribute: boolean = true,
   ) {}
 
   static default(): HtmlFormatterOptions {
@@ -54,6 +61,7 @@ export class HtmlFormatterOptions {
         this.formatEmbeddedJs,
         this.formatEmbeddedCss,
         this.insertFinalNewline,
+        this.avoidWrappingSingleAttribute,
       ),
       overrides,
     );

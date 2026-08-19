@@ -135,6 +135,21 @@
   </div>
 
   <div class="flex items-center justify-between py-1.5">
+    <span class="text-sm text-fg-muted">Compactar atributo único largo</span>
+    <label class="inline-flex cursor-pointer items-center">
+      <input
+        type="checkbox"
+        class="peer sr-only"
+        [ngModel]="options().avoidWrappingSingleAttribute"
+        (ngModelChange)="update({ avoidWrappingSingleAttribute: $event })"
+      />
+      <span
+        class="relative h-5 w-9 rounded-full bg-surface-3 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-fg-subtle after:transition-all peer-checked:bg-accent peer-checked:after:translate-x-4 peer-checked:after:bg-white"
+      ></span>
+    </label>
+  </div>
+
+  <div class="flex items-center justify-between py-1.5">
     <span class="text-sm text-fg-muted">Comillas de valores</span>
     <select
       class="rounded-md border border-border bg-surface-2 px-2 py-1 text-sm text-fg focus:outline-none focus:ring-1 focus:ring-accent"

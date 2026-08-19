@@ -130,6 +130,22 @@ describe('HtmlAstBuilder + HtmlPrinter', () => {
     expect(out).not.toMatch(/\{\{[^}]*\n/);
   });
 
+  it('no envuelve un único atributo aunque sea muy largo (regresión: class de Tailwind y d de SVG)', () => {
+    const outDiv = format(
+      '<div class="flex items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white px-4 py-3 shadow-sm hover:shadow-md transition-shadow">Hola</div>',
+    );
+    expect(outDiv).toContain(
+      '<div class="flex items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white px-4 py-3 shadow-sm hover:shadow-md transition-shadow">',
+    );
+
+    const outSvg = format(
+      '<svg><path d="M12 6v12m6-6H6 datos de trazado bastante largos para superar el ancho configurado por defecto" /></svg>',
+    );
+    expect(outSvg).toContain(
+      '<path d="M12 6v12m6-6H6 datos de trazado bastante largos para superar el ancho configurado por defecto" />',
+    );
+  });
+
   it('no inserta espacios entre texto y una expresión {{ }} que estaban pegados en el original', () => {
     const out = format(
       "<p>hola{{ 'x' | translate }}mundo, esto es un párrafo bastante largo para forzar el ajuste de línea y ver qué pasa con la expresión pegada al texto</p>",

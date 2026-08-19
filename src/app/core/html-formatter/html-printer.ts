@@ -445,6 +445,11 @@ export class HtmlPrinter {
   }
 
   private attributesNeedWrap(el: HtmlElementNode, depth: number): boolean {
+    // Con un solo atributo no hay nada que ganar envolviendo: seguiría midiendo
+    // lo mismo en su propia línea, solo que con dos saltos de línea de más
+    // (típico en `<div class="...">` con clases de Tailwind largas, o en
+    // `<path d="...">` de un SVG). Controlable vía `avoidWrappingSingleAttribute`.
+    if (this.options.avoidWrappingSingleAttribute && el.attributes.length <= 1) return false;
     if (el.attributes.length === 0) return false;
     if (this.options.attributeWrap === 'never') return false;
     if (this.forcesAttributeWrap(el)) return true;

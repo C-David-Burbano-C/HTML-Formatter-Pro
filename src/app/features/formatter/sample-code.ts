@@ -13,6 +13,11 @@ export const SAMPLE_HTML = `<!DOCTYPE html><html><head>
 <header class="topbar"><h1>Mi Panel</h1><nav><a href="#">Inicio</a> <a href="#">Ajustes</a></nav></header>
 
 <main>
+<div class="flex items-center gap-3 rounded-xl border border-gray-200 bg-gradient-to-r from-indigo-50 to-white px-5 py-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+<svg class="h-5 w-5 shrink-0 text-indigo-500"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+<span>Prueba la opción "Compactar atributo único largo": este div y el svg de arriba tienen un solo atributo (class y d) muy largo, actívala o desactívala para ver la diferencia.</span>
+</div>
+
 <section class="card">
 <p class="title">Bienvenido de nuevo, <b>Ana</b>. Aquí tienes un resumen de tu actividad reciente en la plataforma durante los últimos siete días.</p>
 
