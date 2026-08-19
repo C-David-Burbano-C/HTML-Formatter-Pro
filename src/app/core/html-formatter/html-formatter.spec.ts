@@ -64,12 +64,20 @@ describe('HtmlAstBuilder + HtmlPrinter', () => {
     expect(out).toContain('[class.active]="isActive"');
   });
 
-  it('envuelve los atributos, uno por línea, cuando la etiqueta supera el ancho configurado', () => {
+  it('envuelve los atributos, uno por línea, cuando la etiqueta supera el ancho configurado (modo auto)', () => {
     const out = format(
       '<input type="text" class="form-control form-control-lg" placeholder="Enter your full name here please" data-testid="name-input" required>',
+      { attributeWrap: 'auto' },
     );
     expect(out).toContain('<input\n  type="text"\n  class="form-control form-control-lg"');
     expect(out.trim().endsWith('>')).toBeTrue();
+  });
+
+  it('por defecto no envuelve los atributos (Ajuste de línea = Nunca)', () => {
+    const out = format(
+      '<input type="text" class="form-control form-control-lg" placeholder="Enter your full name here please" data-testid="name-input" required>',
+    );
+    expect(out.trim()).not.toContain('\n');
   });
 
   it('cierra correctamente los elementos foráneos vacíos de SVG (regresión: no debe duplicar el cierre)', () => {

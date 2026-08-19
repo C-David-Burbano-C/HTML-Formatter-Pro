@@ -21,7 +21,7 @@ export class HtmlFormatterOptions {
     public maxConsecutiveBlankLines: number = 1,
     /** Longitud de línea objetivo usada para decidir el ajuste de atributos / saltos forzados. */
     public printWidth: number = 100,
-    public attributeWrap: AttributeWrapMode = 'auto',
+    public attributeWrap: AttributeWrapMode = 'never',
     public quoteStyle: QuoteStyle = 'double',
     public voidElementStyle: VoidElementStyle = 'html',
     public lowercaseTags: boolean = false,
